@@ -1,9 +1,6 @@
 import base64
 import struct
-import re
 from tkinter import Tk, Text, Button, END, messagebox
-from tkinter.simpledialog import askstring
-from tkinter.filedialog import asksaveasfilename
 from typing import NamedTuple, List
 
 class TypedDeck(NamedTuple):
@@ -72,6 +69,10 @@ def on_convert_click():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+def on_paste_click():
+    text_input.delete("1.0", END)
+    text_input.insert(END, root.clipboard_get())
+
 def on_copy_click():
     result_text = output_text.get("1.0", END).strip()
     root.clipboard_clear()
@@ -83,6 +84,9 @@ root.title("YDKE生成")
 
 text_input = Text(root, height=20, width=80)
 text_input.pack(padx=10, pady=10)
+
+paste_button = Button(root, text="粘贴YDK", command=on_paste_click)
+paste_button.pack(pady=5)
 
 convert_button = Button(root, text="转换到YDKE", command=on_convert_click)
 convert_button.pack(pady=5)
